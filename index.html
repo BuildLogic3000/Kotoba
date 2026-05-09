@@ -416,23 +416,17 @@ body{font-family:var(--font-ui);background:var(--surface);color:var(--text-prima
 .ws-target-char{font-family:var(--font-jp);font-size:88px;color:var(--sakura);line-height:1;filter:drop-shadow(0 0 20px rgba(240,168,192,0.3));}
 .ws-target-info{font-size:12px;color:var(--text-muted);margin-top:8px;}
 
-/* ===== DIARY ===== */
-.diary-wrap{max-width:720px;}
-.diary-toolbar{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;}
-.diary-btn{padding:6px 14px;border-radius:var(--r);border:1px solid rgba(240,168,192,0.15);background:var(--surface3);font-size:11px;cursor:pointer;color:var(--text-muted);transition:all var(--t);font-family:var(--font-ui);}
-.diary-btn:hover{background:rgba(240,168,192,0.12);color:var(--sakura);border-color:var(--sakura);}
-.diary-textarea{width:100%;min-height:220px;border:1px solid rgba(240,168,192,0.12);border-radius:var(--r-lg);padding:20px;font-family:var(--font-jp);font-size:16px;color:var(--text-primary);background:var(--surface2);line-height:2;resize:vertical;outline:none;transition:border-color var(--t);}
-.diary-textarea:focus{border-color:var(--sakura);}
-.diary-textarea::placeholder{color:var(--text-muted);opacity:0.5;}
-.diary-feedback{margin-top:14px;padding:16px;border-radius:var(--r-lg);background:rgba(240,168,192,0.06);border:1px solid rgba(240,168,192,0.15);display:none;}
-.diary-feedback.show{display:block;}
-.diary-feedback-title{font-size:11px;font-weight:700;color:var(--sakura);margin-bottom:6px;letter-spacing:1px;text-transform:uppercase;}
-.diary-feedback-text{font-size:12px;color:var(--text-secondary);line-height:1.7;}
-.diary-entries-list{display:flex;flex-direction:column;gap:8px;margin-top:20px;}
-.diary-entry{background:var(--surface2);border-radius:var(--r-lg);padding:14px 18px;border:1px solid rgba(240,168,192,0.08);cursor:pointer;transition:all var(--t);}
-.diary-entry:hover{border-color:rgba(240,168,192,0.25);transform:translateX(3px);}
-.de-date{font-size:10px;color:var(--text-muted);margin-bottom:4px;font-weight:600;letter-spacing:0.5px;}
-.de-preview{font-family:var(--font-jp);font-size:14px;color:var(--text-secondary);line-height:1.5;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;}
+/* ===== NOTES ===== */
+.note-item{padding:10px 12px;border-radius:var(--r);cursor:pointer;transition:all var(--t);margin-bottom:3px;border:1px solid transparent;}
+.note-item:hover{background:rgba(240,168,192,0.06);border-color:rgba(240,168,192,0.1);}
+.note-item.active{background:rgba(240,168,192,0.1);border-color:rgba(240,168,192,0.2);}
+.note-item-title{font-size:12px;font-weight:600;color:var(--text-primary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.note-item-preview{font-size:10px;color:var(--text-muted);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.note-item-date{font-size:9px;color:rgba(240,168,192,0.35);margin-top:4px;}
+.note-quick-btn{padding:4px 9px;border-radius:6px;border:1px solid rgba(240,168,192,0.15);background:var(--surface3);font-size:11px;cursor:pointer;color:var(--text-muted);transition:all var(--t);font-family:var(--font-jp);}
+.note-quick-btn:hover{background:rgba(240,168,192,0.12);color:var(--sakura);border-color:var(--sakura);}
+@media(max-width:768px){#notes-layout{grid-template-columns:1fr!important;}}
+@media(max-width:600px){#notes-layout{display:flex;flex-direction:column;}}
 
 /* ===== TRANSLATOR ===== */
 #trans-widget{position:fixed;bottom:22px;right:22px;z-index:200;}
@@ -697,7 +691,7 @@ body{-webkit-font-smoothing:antialiased;overscroll-behavior:none;}
     <button class="nav-item" data-page="vocabulary" onclick="goPage('vocabulary')"><span class="nav-icon">語</span>Vocabulary</button>
     <button class="nav-item" data-page="flashcards" onclick="goPage('flashcards')"><span class="nav-icon">札</span>Flashcards</button>
     <button class="nav-item" data-page="writing" onclick="goPage('writing')"><span class="nav-icon">書</span>Writing Studio</button>
-    <button class="nav-item" data-page="diary" onclick="goPage('diary')"><span class="nav-icon">日</span>Diary</button>
+    <button class="nav-item" data-page="notes" onclick="goPage('notes')"><span class="nav-icon">覚</span>Notes</button>
   </div>
 
   <div class="nav-group">
@@ -743,7 +737,7 @@ body{-webkit-font-smoothing:antialiased;overscroll-behavior:none;}
       <div class="dash-actions">
         <button class="btn btn-primary" onclick="goPage('flashcards')">Study Flashcards</button>
         <button class="btn btn-ghost" onclick="goPage('hiragana')">Practice Kana</button>
-        <button class="btn btn-ghost" onclick="goPage('diary')">Write in Diary</button>
+        <button class="btn btn-ghost" onclick="goPage('notes')">Take Notes</button>
       </div>
     </div>
 
@@ -787,11 +781,11 @@ body{-webkit-font-smoothing:antialiased;overscroll-behavior:none;}
         <div class="qc-sub">書き方</div>
         <div class="qc-desc">Practice stroke order with digital canvas.</div>
       </div>
-      <div class="quick-card" onclick="goPage('diary')">
-        <span class="qc-kanji">日</span>
-        <div class="qc-title">Japanese Diary</div>
-        <div class="qc-sub">日記</div>
-        <div class="qc-desc">Write daily journal entries in Japanese.</div>
+      <div class="quick-card" onclick="goPage('notes')">
+        <span class="qc-kanji">覚</span>
+        <div class="qc-title">Notes</div>
+        <div class="qc-sub">ノート</div>
+        <div class="qc-desc">Jot down notes in Japanese or English. Supports kanji.</div>
       </div>
       <div class="quick-card" onclick="goPage('youtube')">
         <span class="qc-kanji">動</span>
@@ -1003,37 +997,51 @@ body{-webkit-font-smoothing:antialiased;overscroll-behavior:none;}
     </div>
   </section>
 
-  <!-- ===== DIARY ===== -->
-  <section class="page" id="page-diary">
-    <div class="section-heading"><span class="jp">日記</span> Japanese Diary</div>
-    <div class="tab-bar">
-      <button class="tab-btn active" onclick="switchTab(this,'diary','write')">Write</button>
-      <button class="tab-btn" onclick="switchTab(this,'diary','entries')">Entries</button>
+  <!-- ===== NOTES ===== -->
+  <section class="page" id="page-notes">
+    <div class="section-heading"><span class="jp">覚書</span> Notes <span class="count" id="notes-count"></span>
+      <button class="btn btn-primary" style="font-size:11px;padding:7px 14px;margin-left:auto" onclick="createNewNote()">+ New Note</button>
     </div>
-
-    <div id="diary-write" class="diary-wrap">
-      <div class="diary-toolbar">
-        <button class="diary-btn" onclick="insertDiaryText('は')">は</button>
-        <button class="diary-btn" onclick="insertDiaryText('が')">が</button>
-        <button class="diary-btn" onclick="insertDiaryText('を')">を</button>
-        <button class="diary-btn" onclick="insertDiaryText('に')">に</button>
-        <button class="diary-btn" onclick="insertDiaryText('で')">で</button>
-        <button class="diary-btn" onclick="insertDiaryText('の')">の</button>
-        <button class="diary-btn" onclick="insertDiaryText('です。')">です。</button>
-        <button class="diary-btn" onclick="insertDiaryText('ました。')">ました。</button>
-        <button class="diary-btn" onclick="insertDiaryText('と思います。')">と思います。</button>
-        <button class="diary-btn" style="margin-left:auto" onclick="saveDiaryEntry()">Save Entry</button>
+    <div style="display:grid;grid-template-columns:280px 1fr;gap:18px;min-height:500px" id="notes-layout">
+      <!-- Sidebar list -->
+      <div style="background:var(--surface2);border:1px solid rgba(240,168,192,0.08);border-radius:var(--r-xl);overflow:hidden;display:flex;flex-direction:column">
+        <div style="padding:12px 14px;border-bottom:1px solid rgba(240,168,192,0.08);flex-shrink:0">
+          <input class="input-field" type="text" id="notes-search" placeholder="Search notes... / 検索" oninput="renderNotesList()" style="font-size:12px">
+        </div>
+        <div id="notes-list" style="overflow-y:auto;flex:1;padding:6px"></div>
       </div>
-      <div style="font-size:11px;color:var(--text-muted);margin-bottom:8px" id="diary-date"></div>
-      <textarea class="diary-textarea" id="diary-textarea" placeholder="今日は..."></textarea>
-      <div class="diary-feedback" id="diary-feedback">
-        <div class="diary-feedback-title">AI Feedback</div>
-        <div class="diary-feedback-text" id="diary-feedback-text"></div>
+      <!-- Editor -->
+      <div style="display:flex;flex-direction:column;gap:0" id="notes-editor-wrap">
+        <div id="notes-empty-state" style="display:flex;align-items:center;justify-content:center;height:100%;background:var(--surface2);border:1px solid rgba(240,168,192,0.08);border-radius:var(--r-xl);flex-direction:column;gap:12px;color:var(--text-muted)">
+          <div style="font-family:var(--font-jp);font-size:60px;opacity:0.2">覚</div>
+          <div style="font-size:13px">Select a note or create a new one</div>
+          <button class="btn btn-primary" style="font-size:12px" onclick="createNewNote()">+ New Note</button>
+        </div>
+        <div id="notes-editor" style="display:none;flex-direction:column;height:100%;background:var(--surface2);border:1px solid rgba(240,168,192,0.08);border-radius:var(--r-xl);overflow:hidden">
+          <div style="padding:14px 18px;border-bottom:1px solid rgba(240,168,192,0.08);display:flex;align-items:center;gap:10px;flex-shrink:0">
+            <input class="input-field" type="text" id="note-title-input" placeholder="Note title / タイトル" style="font-size:14px;font-weight:600;flex:1;border:none;background:none;padding:4px 0;font-family:var(--font-jp);" oninput="autoSaveNote()">
+            <div style="display:flex;gap:6px;flex-shrink:0">
+              <button class="note-quick-btn" onclick="insertNoteText('は')">は</button>
+              <button class="note-quick-btn" onclick="insertNoteText('が')">が</button>
+              <button class="note-quick-btn" onclick="insertNoteText('を')">を</button>
+              <button class="note-quick-btn" onclick="insertNoteText('に')">に</button>
+              <button class="note-quick-btn" onclick="insertNoteText('の')">の</button>
+              <button class="note-quick-btn" onclick="insertNoteText('です。')">です。</button>
+            </div>
+            <button class="btn btn-ghost" style="font-size:11px;padding:6px 12px;white-space:nowrap" onclick="deleteCurrentNote()">Delete</button>
+          </div>
+          <div style="flex:1;position:relative">
+            <textarea id="note-body-input" 
+              placeholder="Start writing... Japanese, kanji, and English all supported.&#10;例：今日は日本語を勉強しました。" 
+              style="width:100%;height:100%;padding:18px;background:transparent;border:none;outline:none;resize:none;font-family:var(--font-jp);font-size:14px;color:var(--text-primary);line-height:1.9;position:absolute;inset:0;"
+              oninput="autoSaveNote()"></textarea>
+          </div>
+          <div style="padding:8px 18px;border-top:1px solid rgba(240,168,192,0.06);display:flex;align-items:center;gap:12px;flex-shrink:0">
+            <span id="note-save-status" style="font-size:10px;color:var(--text-muted)">Saved</span>
+            <span id="note-char-count" style="font-size:10px;color:var(--text-muted);margin-left:auto"></span>
+          </div>
+        </div>
       </div>
-    </div>
-
-    <div id="diary-entries" style="display:none" class="diary-wrap">
-      <div class="diary-entries-list" id="diary-list"></div>
     </div>
   </section>
 
@@ -1244,6 +1252,30 @@ body{-webkit-font-smoothing:antialiased;overscroll-behavior:none;}
   <iframe id="viewer-iframe" src="" style="flex:1;width:100%;border:none;background:#fff"></iframe>
 </div>
 
+<!-- ===== PDF READER ===== -->
+<div id="pdf-reader" style="display:none;position:fixed;inset:0;z-index:600;background:var(--ink);flex-direction:column">
+  <div style="height:52px;background:var(--ink2);border-bottom:1px solid rgba(240,168,192,0.12);display:flex;align-items:center;padding:0 16px;gap:12px;flex-shrink:0">
+    <span style="font-family:var(--font-jp);color:var(--sakura);font-size:16px">文</span>
+    <div id="pdf-reader-title" style="font-size:13px;color:var(--text-primary);font-weight:500;flex:1;overflow:hidden;white-space:nowrap;text-overflow:ellipsis"></div>
+    <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
+      <button onclick="pdfPrevPage()" style="background:rgba(240,168,192,0.08);border:1px solid rgba(240,168,192,0.15);border-radius:6px;color:var(--text-secondary);cursor:pointer;padding:5px 10px;font-size:12px">◀</button>
+      <span id="pdf-page-info" style="font-size:11px;color:var(--text-muted);min-width:70px;text-align:center">Page 1</span>
+      <button onclick="pdfNextPage()" style="background:rgba(240,168,192,0.08);border:1px solid rgba(240,168,192,0.15);border-radius:6px;color:var(--text-secondary);cursor:pointer;padding:5px 10px;font-size:12px">▶</button>
+      <button onclick="pdfZoomOut()" style="background:rgba(240,168,192,0.08);border:1px solid rgba(240,168,192,0.15);border-radius:6px;color:var(--text-secondary);cursor:pointer;padding:5px 10px;font-size:12px">−</button>
+      <span id="pdf-zoom-info" style="font-size:11px;color:var(--text-muted);min-width:40px;text-align:center">100%</span>
+      <button onclick="pdfZoomIn()" style="background:rgba(240,168,192,0.08);border:1px solid rgba(240,168,192,0.15);border-radius:6px;color:var(--text-secondary);cursor:pointer;padding:5px 10px;font-size:12px">+</button>
+    </div>
+    <button onclick="closePDFReader()" style="background:none;border:none;cursor:pointer;color:var(--text-muted);font-size:22px;line-height:1;padding:4px 8px;margin-left:8px">×</button>
+  </div>
+  <div id="pdf-canvas-wrap" style="flex:1;overflow:auto;display:flex;align-items:flex-start;justify-content:center;padding:20px;background:var(--surface)">
+    <div id="pdf-loading" style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:300px;color:var(--text-muted);gap:12px">
+      <div style="font-family:var(--font-jp);font-size:48px;opacity:0.3">文</div>
+      <div style="font-size:13px">Loading PDF…</div>
+    </div>
+    <canvas id="pdf-canvas" style="display:none;box-shadow:0 8px 40px rgba(0,0,0,0.6);border-radius:4px;max-width:100%"></canvas>
+  </div>
+</div>
+
 <!-- ===== TRANSLATOR ===== -->
 <div id="trans-widget">
   <div class="trans-panel" id="trans-panel">
@@ -1270,7 +1302,7 @@ const state={
   kanjiBookmarks:new Set(JSON.parse(localStorage.getItem('kotoba_kbm')||'[]')),
   vocab:JSON.parse(localStorage.getItem('kotoba_vocab')||'null')||[],
   flashcards:JSON.parse(localStorage.getItem('kotoba_fc')||'null')||[],
-  diaryEntries:JSON.parse(localStorage.getItem('kotoba_diary')||'[]'),
+  notes:JSON.parse(localStorage.getItem('kotoba_notes')||'[]'),
   pdfs:JSON.parse(localStorage.getItem('kotoba_pdfs')||'[]'),
   audioFiles:JSON.parse(localStorage.getItem('kotoba_audio')||'[]'),
   ytVideos:JSON.parse(localStorage.getItem('kotoba_yt')||'[]'),
@@ -1284,7 +1316,7 @@ function saveState(){
   localStorage.setItem('kotoba_kbm',JSON.stringify([...state.kanjiBookmarks]));
   localStorage.setItem('kotoba_vocab',JSON.stringify(state.vocab));
   localStorage.setItem('kotoba_fc',JSON.stringify(state.flashcards));
-  localStorage.setItem('kotoba_diary',JSON.stringify(state.diaryEntries));
+  localStorage.setItem('kotoba_notes',JSON.stringify(state.notes));
   localStorage.setItem('kotoba_pdfs',JSON.stringify(state.pdfs));
   localStorage.setItem('kotoba_audio',JSON.stringify(state.audioFiles));
   localStorage.setItem('kotoba_yt',JSON.stringify(state.ytVideos));
@@ -1415,7 +1447,7 @@ const DEFAULT_PDFS=[];
 if(!state.pdfs.length)state.pdfs=[...DEFAULT_PDFS];
 
 // ===== NAVIGATION =====
-const PAGE_TITLES={'dashboard':'ダッシュボード','hiragana':'ひらがな','katakana':'カタカナ','kanji':'漢字','vocabulary':'語彙','flashcards':'フラッシュカード','writing':'書き方','diary':'日記','pdfs':'図書館','audio':'音声','youtube':'動画','bookmarks':'栞','settings':'設定'};
+const PAGE_TITLES={'dashboard':'ダッシュボード','hiragana':'ひらがな','katakana':'カタカナ','kanji':'漢字','vocabulary':'語彙','flashcards':'フラッシュカード','writing':'書き方','notes':'覚書 Notes','pdfs':'図書館','audio':'音声','youtube':'動画','bookmarks':'栞','settings':'設定'};
 function goPage(id){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.toggle('active',n.dataset.page===id));
@@ -1424,9 +1456,9 @@ function goPage(id){
   document.getElementById('topbar-title').textContent=PAGE_TITLES[id]||id;
   state.currentPage=id;
   syncBottomNav(id);
-  if(id==='diary')updateDiaryDate();
   if(id==='bookmarks')renderBM();
   if(id==='pdfs')renderPDFs();
+  if(id==='notes')renderNotesList();
   if(id==='audio')renderAudioList();
   if(id==='youtube')renderYT();
   if(id==='settings')updateStorageInfo();
@@ -1654,16 +1686,44 @@ function saveNewFC(){
 const WRITING_CHARS=KANJI_DATA.n5;let wsIdx=0,wsTool='pen',wsDrawing=false,wsLast={x:0,y:0};
 function initWritingCanvas(){
   const canvas=document.getElementById('ws-canvas');if(!canvas)return;
+  // Resize canvas to match CSS size
+  const cssW=canvas.offsetWidth||400;
+  const cssH=canvas.offsetHeight||360;
+  canvas.width=cssW*window.devicePixelRatio;
+  canvas.height=cssH*window.devicePixelRatio;
   const ctx=canvas.getContext('2d');
-  const rect=()=>canvas.getBoundingClientRect();
+  ctx.scale(window.devicePixelRatio,window.devicePixelRatio);
+  drawGuideChar(canvas,ctx);
   const pos=(e)=>{
-    const r=rect();const t=e.touches?e.touches[0]:e;
-    return{x:(t.clientX-r.left)*(canvas.width/r.width),y:(t.clientY-r.top)*(canvas.height/r.height)};
+    const r=canvas.getBoundingClientRect();
+    const t=e.touches?e.touches[0]:e;
+    return{x:t.clientX-r.left,y:t.clientY-r.top};
   };
-  canvas.onmousedown=canvas.ontouchstart=(e)=>{e.preventDefault();wsDrawing=true;const p=pos(e);wsLast=p;};
-  canvas.onmousemove=canvas.ontouchmove=(e)=>{e.preventDefault();if(!wsDrawing)return;const p=pos(e);const sz=parseInt(document.getElementById('ws-size')?.value||5);ctx.beginPath();ctx.moveTo(wsLast.x,wsLast.y);ctx.lineTo(p.x,p.y);if(wsTool==='erase'){ctx.globalCompositeOperation='destination-out';ctx.strokeStyle='rgba(0,0,0,1)';ctx.lineWidth=sz*3;}else{ctx.globalCompositeOperation='source-over';ctx.strokeStyle='rgba(240,200,220,0.9)';ctx.lineWidth=sz;}ctx.lineCap='round';ctx.stroke();wsLast=p;};
+  canvas.onmousedown=canvas.ontouchstart=(e)=>{e.preventDefault();wsDrawing=true;wsLast=pos(e);};
+  canvas.onmousemove=canvas.ontouchmove=(e)=>{
+    e.preventDefault();if(!wsDrawing)return;
+    const p=pos(e);
+    const sz=parseInt(document.getElementById('ws-size')?.value||5);
+    ctx.beginPath();ctx.moveTo(wsLast.x,wsLast.y);ctx.lineTo(p.x,p.y);
+    if(wsTool==='erase'){ctx.globalCompositeOperation='destination-out';ctx.strokeStyle='rgba(0,0,0,1)';ctx.lineWidth=sz*3;}
+    else{ctx.globalCompositeOperation='source-over';ctx.strokeStyle='rgba(248,200,220,0.95)';ctx.lineWidth=sz;}
+    ctx.lineCap='round';ctx.lineJoin='round';ctx.stroke();
+    wsLast=p;
+  };
   canvas.onmouseup=canvas.ontouchend=()=>{wsDrawing=false;};
   canvas.onmouseleave=()=>{wsDrawing=false;};
+}
+function drawGuideChar(canvas,ctx){
+  const w=canvas.width/window.devicePixelRatio;
+  const h=canvas.height/window.devicePixelRatio;
+  ctx.save();
+  ctx.globalCompositeOperation='source-over';
+  ctx.font=`${Math.min(w,h)*0.7}px 'Noto Serif JP',serif`;
+  ctx.textAlign='center';ctx.textBaseline='middle';
+  ctx.fillStyle='rgba(240,168,192,0.06)';
+  const k=WRITING_CHARS[wsIdx%WRITING_CHARS.length];
+  ctx.fillText(k?k.c:'日',w/2,h/2);
+  ctx.restore();
 }
 function setTool(t,btn){
   wsTool=t;
@@ -1672,52 +1732,117 @@ function setTool(t,btn){
 }
 function clearCanvas(){
   const c=document.getElementById('ws-canvas');if(!c)return;
-  c.getContext('2d').clearRect(0,0,c.width,c.height);
+  const ctx=c.getContext('2d');
+  ctx.clearRect(0,0,c.width,c.height);
+  ctx.setTransform(1,0,0,1,0,0);
+  ctx.scale(window.devicePixelRatio,window.devicePixelRatio);
+  drawGuideChar(c,ctx);
 }
 function updateWritingTarget(){
   const k=WRITING_CHARS[wsIdx%WRITING_CHARS.length];
   document.getElementById('ws-target-char').textContent=k.c;
   document.getElementById('ws-target-info').textContent=`${k.m} — ${k.s} strokes — N5`;
+  clearCanvas();
 }
 function nextWritingChar(){wsIdx++;updateWritingTarget();}
 function prevWritingChar(){wsIdx=Math.max(0,wsIdx-1);updateWritingTarget();}
 
-// ===== DIARY =====
-function updateDiaryDate(){
-  const el=document.getElementById('diary-date');
-  if(el)el.textContent=new Date().toLocaleDateString('ja-JP',{year:'numeric',month:'long',day:'numeric',weekday:'long'});
+// ===== NOTES =====
+let currentNoteId=null;
+let autoSaveTimer=null;
+
+function generateNoteId(){return 'note_'+Date.now()+'_'+Math.random().toString(36).slice(2);}
+
+function createNewNote(){
+  const note={id:generateNoteId(),title:'',body:'',created:new Date().toISOString(),updated:new Date().toISOString()};
+  state.notes.unshift(note);
+  saveState();
+  renderNotesList();
+  openNote(note.id);
 }
-function insertDiaryText(t){
-  const ta=document.getElementById('diary-textarea');if(!ta)return;
+
+function openNote(id){
+  currentNoteId=id;
+  const note=state.notes.find(n=>n.id===id);
+  if(!note)return;
+  document.getElementById('notes-empty-state').style.display='none';
+  const ed=document.getElementById('notes-editor');
+  ed.style.display='flex';
+  document.getElementById('note-title-input').value=note.title;
+  document.getElementById('note-body-input').value=note.body;
+  updateNoteCharCount();
+  document.getElementById('note-save-status').textContent='Saved';
+  renderNotesList();
+  // Focus body if title already set
+  if(note.title)document.getElementById('note-body-input').focus();
+  else document.getElementById('note-title-input').focus();
+}
+
+function autoSaveNote(){
+  const note=state.notes.find(n=>n.id===currentNoteId);
+  if(!note)return;
+  const title=document.getElementById('note-title-input').value;
+  const body=document.getElementById('note-body-input').value;
+  note.title=title;
+  note.body=body;
+  note.updated=new Date().toISOString();
+  document.getElementById('note-save-status').textContent='Saving…';
+  updateNoteCharCount();
+  clearTimeout(autoSaveTimer);
+  autoSaveTimer=setTimeout(()=>{
+    saveState();
+    renderNotesList();
+    document.getElementById('note-save-status').textContent='Saved ✓';
+  },600);
+}
+
+function updateNoteCharCount(){
+  const body=document.getElementById('note-body-input')?.value||'';
+  const el=document.getElementById('note-char-count');
+  if(el)el.textContent=body.length+' chars';
+}
+
+function deleteCurrentNote(){
+  if(!currentNoteId||!confirm('Delete this note?'))return;
+  state.notes=state.notes.filter(n=>n.id!==currentNoteId);
+  saveState();
+  currentNoteId=null;
+  document.getElementById('notes-empty-state').style.display='flex';
+  document.getElementById('notes-editor').style.display='none';
+  renderNotesList();
+  toast('Note deleted');
+}
+
+function insertNoteText(t){
+  const ta=document.getElementById('note-body-input');if(!ta)return;
   const s=ta.selectionStart,e=ta.selectionEnd;
   ta.value=ta.value.slice(0,s)+t+ta.value.slice(e);
-  ta.selectionStart=ta.selectionEnd=s+t.length;ta.focus();
+  ta.selectionStart=ta.selectionEnd=s+t.length;
+  ta.focus();
+  autoSaveNote();
 }
-function saveDiaryEntry(){
-  const text=document.getElementById('diary-textarea').value.trim();
-  if(!text)return;
-  state.diaryEntries.unshift({date:new Date().toLocaleDateString('ja-JP'),text});
-  saveState();document.getElementById('diary-textarea').value='';
-  toast('Entry saved');
-  const fb=document.getElementById('diary-feedback');
-  const ft=document.getElementById('diary-feedback-text');
-  if(fb&&ft){
-    ft.textContent='よくできました！Your entry looks great. Keep writing every day to improve your Japanese skills.';
-    fb.classList.add('show');
-  }
-}
-function renderEntries(){
-  const g=document.getElementById('diary-list');if(!g)return;
+
+function renderNotesList(){
+  const g=document.getElementById('notes-list');if(!g)return;
+  const q=(document.getElementById('notes-search')?.value||'').toLowerCase();
+  const c=document.getElementById('notes-count');
+  const filtered=state.notes.filter(n=>!q||(n.title+n.body).toLowerCase().includes(q));
+  if(c)c.textContent=state.notes.length+' notes';
   g.innerHTML='';
-  if(!state.diaryEntries.length){g.innerHTML='<div style="color:var(--text-muted);font-size:13px;padding:20px 0">No entries yet. Start writing!</div>';return;}
-  state.diaryEntries.forEach((e,i)=>{
-    const d=document.createElement('div');d.className='diary-entry';
-    d.innerHTML=`<div class="de-date">${e.date}</div><div class="de-preview">${e.text}</div><button class="remove-btn" title="Remove" onclick="removeDiaryEntry(${i},event)">✕</button>`;
+  if(!filtered.length){
+    g.innerHTML='<div style="padding:20px;text-align:center;font-size:12px;color:var(--text-muted)">'+(q?'No results':'No notes yet<br><br><button class="btn btn-primary" style="font-size:11px" onclick="createNewNote()">+ New Note</button>')+'</div>';
+    return;
+  }
+  filtered.forEach(note=>{
+    const d=document.createElement('div');
+    d.className='note-item'+(note.id===currentNoteId?' active':'');
+    const date=new Date(note.updated).toLocaleDateString('ja-JP',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'});
+    const preview=note.body.slice(0,60).replace(/\n/g,' ')||'No content';
+    d.innerHTML=`<div class="note-item-title">${note.title||'Untitled Note'}</div><div class="note-item-preview">${preview}</div><div class="note-item-date">${date}</div>`;
+    d.onclick=()=>openNote(note.id);
     g.appendChild(d);
   });
 }
-
-function removeDiaryEntry(i,e){e.stopPropagation();state.diaryEntries.splice(i,1);saveState();renderEntries();toast('Entry removed');}
 
 // ===== PDF =====
 let pdfCatFilter='all';
@@ -1729,27 +1854,61 @@ function renderPDFs(){
   items.forEach(p=>{
     const realIdx=state.pdfs.indexOf(p);
     const d=document.createElement('div');d.className='pdf-card';
-    d.innerHTML=`<div class="pdf-thumb ${p.cat||'a1'}">${p.kanji||'文'}</div><div class="pdf-body"><div class="pdf-title">${p.title}</div><div class="pdf-meta">${p.meta}</div><span class="pdf-badge">${(p.cat||'').toUpperCase()}</span>${p.url?'<span class="pdf-badge" style="margin-left:4px;color:var(--jade2)">URL</span>':''}</div><button class="remove-btn" title="Remove" onclick="removePDF(${realIdx},event)">✕</button>`;
-    d.onclick=()=>openInAppViewer(p.url||'',p.title);
+    const badge=p.localId?'<span class="pdf-badge" style="margin-left:4px;color:var(--sakura)">LOCAL</span>':p.url?'<span class="pdf-badge" style="margin-left:4px;color:var(--jade2)">URL</span>':'';
+    d.innerHTML=`<div class="pdf-thumb ${p.cat||'a1'}">${p.kanji||'文'}</div><div class="pdf-body"><div class="pdf-title">${p.title}</div><div class="pdf-meta">${p.meta}</div><span class="pdf-badge">${(p.cat||'').toUpperCase()}</span>${badge}</div><button class="remove-btn" title="Remove" onclick="removePDF(${realIdx},event)">✕</button>`;
+    d.onclick=(e)=>{
+      if(e.target.classList.contains('remove-btn'))return;
+      if(p.localId)openPDFReader(p.localId,p.title);
+      else openInAppViewer(p.url||'',p.title);
+    };
     g.appendChild(d);
   });
 }
-function removePDF(i,e){e.stopPropagation();state.pdfs.splice(i,1);saveState();renderPDFs();toast('Removed');}
+function removePDF(i,e){
+  e.stopPropagation();
+  const p=state.pdfs[i];
+  if(p&&p.localId){try{localStorage.removeItem('kotoba_pdfdata_'+p.localId);}catch(err){}}
+  state.pdfs.splice(i,1);saveState();renderPDFs();toast('Removed');
+}
 function filterPDF(cat,btn){
   pdfCatFilter=cat;
   document.querySelectorAll('.pdf-cat').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');renderPDFs();
 }
-function handlePDFUpload(input){
-  const f=input.files[0];if(!f)return;
-  state.pdfs.unshift({title:f.name.replace('.pdf',''),meta:'Custom · just added',cat:'a1',kanji:'文'});
-  saveState();renderPDFs();toast('PDF added: '+f.name);
+function storePDFFile(file){
+  return new Promise((resolve)=>{
+    const reader=new FileReader();
+    reader.onload=(e)=>{
+      const dataUrl=e.target.result;
+      const id='pdf_'+Date.now();
+      try{localStorage.setItem('kotoba_pdfdata_'+id,dataUrl);}catch(err){toast('PDF too large for local storage');resolve(null);return;}
+      resolve(id);
+    };
+    reader.readAsDataURL(file);
+  });
 }
-function handlePDFDrop(e){
+async function handlePDFUpload(input){
+  const f=input.files[0];if(!f)return;
+  toast('Loading PDF…');
+  const id=await storePDFFile(f);
+  if(!id)return;
+  const entry={title:f.name.replace(/\.pdf$/i,''),meta:'Local · '+new Date().toLocaleDateString(),cat:'a1',kanji:'文',localId:id};
+  state.pdfs.unshift(entry);
+  saveState();renderPDFs();toast('PDF ready: '+f.name);
+  openPDFReader(id,entry.title);
+  input.value='';
+}
+async function handlePDFDrop(e){
   e.preventDefault();document.getElementById('pdf-upload-zone').classList.remove('drag');
-  const f=e.dataTransfer.files[0];if(!f||!f.name.endsWith('.pdf')){toast('Please drop a PDF file');return;}
-  state.pdfs.unshift({title:f.name.replace('.pdf',''),meta:'Custom · just added',cat:'a1',kanji:'文'});
-  saveState();renderPDFs();toast('PDF added');
+  const f=e.dataTransfer.files[0];
+  if(!f||!f.name.toLowerCase().endsWith('.pdf')){toast('Please drop a PDF file');return;}
+  toast('Loading PDF…');
+  const id=await storePDFFile(f);
+  if(!id)return;
+  const entry={title:f.name.replace(/\.pdf$/i,''),meta:'Local · '+new Date().toLocaleDateString(),cat:'a1',kanji:'文',localId:id};
+  state.pdfs.unshift(entry);
+  saveState();renderPDFs();toast('PDF ready!');
+  openPDFReader(id,entry.title);
 }
 
 // ===== YOUTUBE =====
@@ -1958,10 +2117,7 @@ function addBMSource(){
   toast('Source saved');
 }
 
-// Close viewer on Escape
-document.addEventListener('keydown',e=>{
-  if(e.key==='Escape'&&document.getElementById('inapp-viewer').style.display!=='none')closeInAppViewer();
-});
+// Keyboard shortcuts for flashcards
 
 
 document.addEventListener('keydown',e=>{
@@ -1979,7 +2135,7 @@ function init(){
   renderVocab();
   fcDeck=state.flashcards;
   updateFC();
-  updateDiaryDate();
+  renderNotesList();
   renderBM();
   renderPDFs();
   renderAudioList();
@@ -1992,12 +2148,11 @@ function init(){
     const orig=btn.getAttribute('onclick')||'';
     if(orig.includes("'quiz'")){
       const t=orig.includes('hira')?'hira':'kata';
-      const oldOnclick=btn.onclick;
       btn.addEventListener('click',()=>setTimeout(()=>startKanaQuiz(t),50));
     }
   });
-  // Writing canvas
-  setTimeout(initWritingCanvas,100);
+  // Writing canvas — init after layout settles
+  setTimeout(initWritingCanvas,200);
 }
 // ===== PWA / INSTALL =====
 let deferredInstallPrompt=null;
@@ -2086,7 +2241,72 @@ function syncBottomNav(pageId){
   });
 }
 
+// ===== PDF READER (PDF.js) =====
+let pdfDoc=null,pdfPageNum=1,pdfScale=1.2;
+
+function openPDFReader(localId,title){
+  const dataUrl=localStorage.getItem('kotoba_pdfdata_'+localId);
+  if(!dataUrl){toast('PDF data not found');return;}
+  document.getElementById('pdf-reader-title').textContent=title||'PDF';
+  document.getElementById('pdf-loading').style.display='flex';
+  document.getElementById('pdf-canvas').style.display='none';
+  document.getElementById('pdf-reader').style.display='flex';
+  pdfPageNum=1;pdfScale=1.2;
+  // Convert dataURL to Uint8Array
+  const base64=dataUrl.split(',')[1];
+  const binary=atob(base64);
+  const bytes=new Uint8Array(binary.length);
+  for(let i=0;i<binary.length;i++)bytes[i]=binary.charCodeAt(i);
+  pdfjsLib.getDocument({data:bytes}).promise.then(pdf=>{
+    pdfDoc=pdf;
+    pdfRenderPage();
+  }).catch(err=>{
+    document.getElementById('pdf-loading').innerHTML='<div style="color:var(--sakura);font-size:13px">Failed to load PDF.<br>'+err.message+'</div>';
+  });
+}
+
+function pdfRenderPage(){
+  if(!pdfDoc)return;
+  document.getElementById('pdf-loading').style.display='flex';
+  document.getElementById('pdf-canvas').style.display='none';
+  pdfDoc.getPage(pdfPageNum).then(page=>{
+    const viewport=page.getViewport({scale:pdfScale});
+    const canvas=document.getElementById('pdf-canvas');
+    const ctx=canvas.getContext('2d');
+    canvas.width=viewport.width;
+    canvas.height=viewport.height;
+    page.render({canvasContext:ctx,viewport}).promise.then(()=>{
+      document.getElementById('pdf-loading').style.display='none';
+      canvas.style.display='block';
+      document.getElementById('pdf-page-info').textContent=`Page ${pdfPageNum} / ${pdfDoc.numPages}`;
+      document.getElementById('pdf-zoom-info').textContent=Math.round(pdfScale*100)+'%';
+    });
+  });
+}
+
+function pdfNextPage(){if(pdfDoc&&pdfPageNum<pdfDoc.numPages){pdfPageNum++;pdfRenderPage();}}
+function pdfPrevPage(){if(pdfDoc&&pdfPageNum>1){pdfPageNum--;pdfRenderPage();}}
+function pdfZoomIn(){pdfScale=Math.min(pdfScale+0.2,4);pdfRenderPage();}
+function pdfZoomOut(){pdfScale=Math.max(pdfScale-0.2,0.4);pdfRenderPage();}
+
+function closePDFReader(){
+  document.getElementById('pdf-reader').style.display='none';
+  pdfDoc=null;
+}
+
+// Escape key handlers
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){
+    if(document.getElementById('pdf-reader').style.display!=='none'){closePDFReader();return;}
+    if(document.getElementById('inapp-viewer').style.display!=='none'){closeInAppViewer();}
+  }
+});
+
 window.addEventListener('DOMContentLoaded',init);
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+  if(typeof pdfjsLib!=='undefined')pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 </script>
 </body>
 </html>
